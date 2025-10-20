@@ -20,6 +20,7 @@ fetchProductsThen();
 function displayProducts(products) {
     const container = document.getElementById("product-container");
     container.innerHTML="";
+    
     products.forEach((product, index) => {
         const furnitureNames = ["Couch", "Coffee Table", "Dresser", "Bed Frame"];
         const name = furnitureNames[index % furnitureNames.length];
@@ -33,3 +34,17 @@ function displayProducts(products) {
         container.appendChild(card);
     });
 }
+async function fetchProductAsync() {
+    try {
+        const response = await fetch("https://www.course-api.com/javascript-store-products");
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        const products = await response.json();
+        displayProducts(products);
+    } catch (error) {
+        handleError(error);
+    }
+}
+function handleError(error) {
+    console.error("Async fetch error:", error);
+}
+fetchProductAsync();
